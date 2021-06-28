@@ -1,0 +1,113 @@
+<style>
+    html, body 
+		 {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		 }
+    .top
+		{ background-color: #1c1c52;
+			padding-block: 20px;
+			text-align: center;
+			font-size: 50px;
+			color: white;
+		 }
+     
+    .formstyle
+	       { 
+				margin-top: 30px;
+                margin-left: 550px;
+           } 
+    .formtitle
+			{
+				margin-left: 90px;
+				margin-bottom: 15px;
+				font-weight: bold;
+			}
+    .borderstyle
+	        {
+			     border-bottom: 1px solid;
+	        }
+	.title
+            {
+				margin-left: 45%;
+                margin-top: 50px;
+                font-size: 20px; 
+            }
+	.searchstyle
+			{
+				margin-left: 47%;
+			}
+    </style>
+    
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charest="utf-8" />
+    <title>會員系統</title>
+
+    <script type="text/javascript">
+	
+function getname()
+   {
+	    let inputname = document.getElementById("name");
+		inputname.innerHTML = "";
+	    let nameElement = document.getElementById("inputname");
+		let name=nameElement.value;
+		let req = new XMLHttpRequest();
+		req.open("get","/api/users?username="+name)
+		req.send()
+		req.onload = function()
+	    {
+			let result = this.response;
+			let u_name = JSON.parse(result).name;
+			let u_id = JSON.parse(result).ID;
+			if (result != null) 
+			{
+				let divname = document.getElementById("name");
+				let divsearch = document.createElement("div");
+				divsearch.className="searchstyle";
+				divname.appendChild(divsearch);
+				let chinese = u_name;
+				let account = u_id;
+				let newname = document.createTextNode(chinese+"("+account+")");
+				console.log(newname)
+				divsearch.appendChild(newname);
+		    }
+
+        }
+	}
+	</script>
+
+
+
+
+    </head>
+    <body>
+		<div class="top">歡迎光臨，這是會員頁</div>
+    
+		<div id="oriname" class="title"> <%= name %> ，歡迎登入系統</div>
+         <a style="margin-left: 48%;" href="../signout">登出系統</a>
+		 <br>
+		 <br>
+		 <br>
+		 <div class="title">查詢會員姓名</div>
+		 <input type="text" id="inputname" style="margin-left: 43%;"><button style="margin-left: 10px;" id="clickme" onclick= "getname()">查詢</button>
+		 <br>
+		 <br>
+		 <div id="name"></div>
+		 <br>
+		 <br>
+		 <div class="title">更新我的姓名</div>
+		 <input type="text" id="username" style="margin-left: 43%;"><button style="margin-left: 10px;" onclick="changename()">更新</button>
+		 <br>
+		 <br>
+		 <div id="changename"></div>
+		 <br>
+		 <br>
+	
+    </body>
+    
+    
+    </html>
